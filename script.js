@@ -1,12 +1,6 @@
 function getComputerChoice() {
-  const rand = Math.ceil(Math.random() * 3);
-  if (rand === 1) {
-    return "Rock";
-  } else if (rand === 2) {
-    return "Paper";
-  } else {
-    return "Scissors";
-  }
+  let choices = ["Rock", "Paper", "Scissors"];
+  return choices[Math.floor(Math.random() * choices.length)];
 }
 
 function playRound(playerSelection, computerSelection) {
