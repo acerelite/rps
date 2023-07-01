@@ -1,0 +1,88 @@
+@import url("https://fonts.googleapis.com/css2?family=Encode+Sans&family=Roboto+Condensed&display=swap");
+
+
+body {
+  font-family: "Encode Sans", sans-serif;
+  font-family: "Roboto Condensed", sans-serif;
+  margin: 0;
+  background-color: brown;
+  color: aliceblue;
+}
+
+.allScoreDisplay {
+  padding: 12px 0;
+  display: flex;
+  justify-content: space-evenly;
+  text-align: center;
+}
+
+.scoreDisplay {
+  width: 200px;
+  font-size: large;
+}
+#playerScore,
+#computerScore {
+  font-size: 40px;
+  font-weight: bold;
+}
+
+.choiceDisplay {
+  padding: 12px 0;
+  display: flex;
+  justify-content: center;
+  gap: 190px;
+}
+
+.choiceDisplay > div {
+  height: 300px;
+  width: 350px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 50px;
+  font-weight: bold;
+}
+
+.choices {
+  padding: 12px 0;
+  display: flex;
+  justify-content: center;
+  gap: 70px;
+}
+
+button {
+  border-radius: 8px;
+  height: 70px;
+  width: 150px;
+  font-size: 20px;
+  background-color: rgb(236, 118, 118);
+  border-color: rgb(74, 29, 29);
+}
+
+#gameLog {
+  overflow-y: auto;
+  height: 210px;
+  width: 500px;
+  margin: auto;
+  border: 2px solid rgb(106, 0, 0);
+  padding: 0 5px;
+}
+
+#winnerDisplay {
+  visibility: hidden;
+  height: 99vh;
+  width: 99vw;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  text-align: center;
+  font-size: 40px;
+  background-color: hsla(0, 100%, 18%, 0.9);
+}
+
+#winner {
+  height: 200px;
+  font-size: 100px;
+}

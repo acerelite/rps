@@ -3,64 +3,106 @@ function getComputerChoice() {
   return choices[Math.floor(Math.random() * choices.length)];
 }
 
-function playRound(playerSelection, computerSelection) {
+function playRound(choiceSelected) {
+  const computerSelection = getComputerChoice();
+  const playerSelection = choiceSelected.target.innerText;
+
   if (playerSelection === computerSelection) {
-    console.log("It's a tie!");
-    return null;
+    updateGame("tie", playerSelection, computerSelection, true);
   } else if (
     (playerSelection === "Rock" && computerSelection === "Scissors") ||
     (playerSelection === "Paper" && computerSelection === "Rock") ||
     (playerSelection === "Scissors" && computerSelection === "Paper")
   ) {
-    console.log(`Player Won! ${playerSelection} beats ${computerSelection}`);
-    return true;
+    playerScore++;
+    updateGame("player", playerSelection, computerSelection);
   } else {
-    console.log(`Computer Won! ${computerSelection} beats ${playerSelection}`);
-    return false;
+    computerScore++;
+    updateGame("computer", playerSelection, computerSelection);
   }
 }
 
-function getPlayerChoice() {
-  let userInput = "";
-  do {
-    userInput = prompt("Enter (Rock - Paper - Scissors)");
-    userInput = userInput.toLowerCase();
-    if (
-      userInput === "rock" ||
-      userInput === "paper" ||
-      userInput === "scissors"
-    ) {
-      return userInput.charAt(0).toUpperCase() + userInput.substring(1);
-    }
-  } while (true);
+function updateGame(winner, playerSelection, computerSelection, isTie = false) {
+  displayRoundResult(winner, playerSelection, computerSelection);
+  displayRoundChoices(playerSelection, computerSelection);
+  if (!isTie) updateScoreboard();
+  checkScore();
 }
 
-function game() {
-  let playerScore = 0;
-  let computerScore = 0;
-  let gameCounter = 5;
-  do {
-    const computerSelection = getComputerChoice();
-    const playerSelection = getPlayerChoice();
-    const hasWon = playRound(playerSelection, computerSelection);
+function displayRoundResult(result, playerSelection, computerSelection) {
+  const resultDisplay = document.createElement("p");
 
-    if (hasWon) {
-      playerScore++;
-    } else if (hasWon === false) {
-      computerScore++;
-    }
-    console.log(`Player: ${playerScore} | Computer: ${computerScore}`);
-    console.log("---------------------------------------------------");
-    gameCounter--;
-  } while (gameCounter > 0);
-
-  if (playerScore > computerScore) {
-    console.log("WINNER: Player");
-  } else if (computerScore > playerScore) {
-    console.log("WINNER: Computer");
+  if (result === "player") {
+    resultDisplay.textContent = `Player Won! ${playerSelection} beats ${computerSelection}`;
+  } else if (result === "computer") {
+    resultDisplay.textContent = `Computer Won! ${computerSelection} beats ${playerSelection}`;
   } else {
-    console.log("TIE: NO WINNER");
+    resultDisplay.textContent = "It's a tie!";
+  }
+
+  gameLog.appendChild(resultDisplay);
+}
+
+function displayRoundChoices(player, computer) {
+  playerChoice.textContent = player;
+  computerChoice.textContent = computer;
+}
+
+function updateScoreboard() {
+  playerScoreDisplay.textContent = playerScore;
+  compScoreDisplay.textContent = computerScore;
+}
+
+function checkScore() {
+  if (playerScore === 5 || computerScore === 5) {
+    if (playerScore > computerScore) {
+      winner.textContent = "PLAYER";
+      disableChoices();
+    } else if (computerScore > playerScore) {
+      winner.textContent = "COMPUTER";
+      disableChoices();
+    } else {
+      winner.textContent = "ERROR";
+      disableChoices();
+    }
   }
 }
 
-game();
+function disableChoices() {
+  choices.forEach((choice) => choice.setAttribute("disabled", true));
+  winnerDisplay.style.visibility = "visible";
+}
+
+function resetGame() {
+  playerScore = 0;
+  computerScore = 0;
+  playerScoreDisplay.textContent = "0";
+  compScoreDisplay.textContent = "0";
+  playerChoice.textContent = "";
+  computerChoice.textContent = "";
+  winner.textContent = "";
+  while(gameLog.firstChild) {
+    gameLog.removeChild(gameLog.firstChild);
+  }
+  choices.forEach((choice) => choice.removeAttribute("disabled"));
+  winnerDisplay.style.visibility = "hidden";
+}
+
+let playerScore = 0;
+let computerScore = 0;
+
+const playerScoreDisplay = document.querySelector("#playerScore");
+const compScoreDisplay = document.querySelector("#computerScore");
+
+const playerChoice = document.querySelector("#playerChoice");
+const computerChoice = document.querySelector("#computerChoice");
+const gameLog = document.querySelector("#gameLog");
+const winnerDisplay = document.querySelector("#winnerDisplay");
+const winner = document.querySelector("#winner");
+const resetBtn = document.querySelector("#reset");
+
+const container = document.querySelector("body");
+const choices = document.querySelectorAll(".choice");
+
+choices.forEach((choice) => choice.addEventListener("click", playRound));
+resetBtn.addEventListener("click", resetGame);

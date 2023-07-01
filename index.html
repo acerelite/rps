@@ -3,9 +3,36 @@
   <head>
     <meta charset="UTF-8" />
     <title>Game: Rock-Paper-Scissors</title>
+    <link rel="stylesheet" href="style.css" />
     <script src="script.js" defer></script>
   </head>
   <body>
-   <h1 style="text-align: center; margin-top: 20%;">Open the Console</h1>
+    <div class="allScoreDisplay">
+      <div class="scoreDisplay">
+        <div>PLAYER</div>
+        <div id="playerScore">0</div>
+      </div>
+      <div  class="scoreDisplay">
+        <div>COMPUTER</div>
+        <div id="computerScore">0</div>
+      </div>
+    </div>
+
+    <div class="choiceDisplay">
+      <div id="playerChoice"></div>
+      <div id="computerChoice"></div>
+    </div>
+
+    <div class="choices">
+      <button id="rock" class="choice">Rock</button>
+      <button id="paper" class="choice">Paper</button>
+      <button id="scissors" class="choice">Scissors</button>
+    </div>
+    <div id="gameLog"></div>
+    <div id="winnerDisplay">
+      <p>WINNER</p>
+      <div id="winner"></div>
+      <button id="reset">RESET</button>
+    </div>
   </body>
 </html>
