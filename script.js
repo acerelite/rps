@@ -57,14 +57,12 @@ function checkScore() {
   if (playerScore === 5 || computerScore === 5) {
     if (playerScore > computerScore) {
       winner.textContent = "PLAYER";
-      disableChoices();
     } else if (computerScore > playerScore) {
       winner.textContent = "COMPUTER";
-      disableChoices();
     } else {
       winner.textContent = "ERROR";
-      disableChoices();
     }
+    disableChoices();
   }
 }
 
@@ -81,7 +79,7 @@ function resetGame() {
   playerChoice.textContent = "";
   computerChoice.textContent = "";
   winner.textContent = "";
-  while(gameLog.firstChild) {
+  while (gameLog.firstChild) {
     gameLog.removeChild(gameLog.firstChild);
   }
   choices.forEach((choice) => choice.removeAttribute("disabled"));
