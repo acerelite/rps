@@ -1,0 +1,79 @@
+body {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  background-color: brown;
+  color: wheat;
+
+  gap: 10px;
+}
+
+
+.header {
+  font-size: 32px;
+  font-weight: bold;
+}
+
+#roundSelect,
+#scoreboard {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 100px;
+
+  color: black;
+}
+
+#roundSelect > div {
+  height: 300px;
+  width: 400px;
+  border: 2px solid grey;
+  border-radius: 20px;
+  background-color: beige;
+}
+
+#playerScore,
+#computerScore {
+  font-size: 2rem;
+  font-weight: bold;
+  background-color: beige;
+  width: 100px;
+}
+
+
+#scoreboard {
+  gap: 800px;
+}
+
+#scoreboard p {
+  color: wheat;
+}
+
+#roundSelect #roundResult {
+  width: 300px;
+  overflow-y:auto;
+}
+
+
+button {
+  height: 80px;
+  width: 160px;
+  margin: 20px;
+  border-radius: 20px;
+  background-color: brown;
+  color: wheat;
+  font-size: 2rem;
+}
+
+.playerSelect,
+.computerSelect {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 42px;
+  font-weight: bold;
+  color: brown;
+}
