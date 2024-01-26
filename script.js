@@ -10,7 +10,6 @@ function displayResult(playerScore, computerScore) {
     } else {
         console.log(`Computer Won! Final Score: Player: ${playerScore} || Computer: ${computerScore}`);
     }
-
 }
 
 function getComputerChoice() {
@@ -27,39 +26,102 @@ function getComputerChoice() {
     }
 }
 
-function playRound(playerSelection, computerSelection) {
-    playerSelection = format(playerSelection)
+function playRound(e) {
+    let computerSelection = getComputerChoice();
+    let playerSelection = e.target.textContent;
+    playerSelection = format(playerSelection);
+
     if (playerSelection == computerSelection) {
-        console.log("It's a tie!");
-        return "tie"
+        updateBoard(playerSelection, computerSelection);
     } else if (playerSelection == "Rock" && computerSelection == "Scissors" ||
         playerSelection == "Paper" && computerSelection == "Rock" ||
         playerSelection == "Scissors" && computerSelection == "Paper") {
-        console.log(`You Won! ${playerSelection} beats ${computerSelection}!`)
-        return "player";
+        updateBoard(playerSelection, computerSelection, 'player');
     } else {
-        console.log(`You Lose! ${computerSelection} beats ${playerSelection}!`);
-        return "computer"
+        updateBoard(playerSelection, computerSelection, 'computer');
     }
 }
 
-function game() {
-    let playerScore = 0;
-    let computerScore = 0;
-    for (let index = 0; index < 5; index++) {
-        let playerSelection = prompt("ROCK | PAPER | SCISSORS");
-        let computerSelection = getComputerChoice();
-        let result = playRound(playerSelection, computerSelection);
-        if (result == "tie") {
-            continue;
-        } else if (result == "player") {
-            playerScore++;
+function updateScore(winner) {
+    if (winner == 'player') {
+        playerScore++;
+        playerScoreDisp.textContent = playerScore;
+    } else {
+        computerScore++;
+        computerScoreDisp.textContent = computerScore;
+    }
+    checkGameStatus();
+}
+
+function checkGameStatus() {
+    if (playerScore == 5 || computerScore == 5) {
+        if (playerScore > computerScore) {
+            setTimeout(function () {
+                alert('Player Won');
+            }, 0)
+
         } else {
-            computerScore++;
-        }
-    }
+            setTimeout(function () {
+                alert('Computer Won');
+            }, 0)
 
-    displayResult(playerScore, computerScore);
+        }
+
+        btnSelections.forEach(btn => btn.disabled = true);
+    }
 }
 
-game();
+function updateBoard(playerSelection, computerSelection, winner = null) {
+    if (winner == null) {
+        updateSelectDisplay(playerSelection, computerSelection);
+        updateResultDisplay(playerSelection, computerSelection, winner);
+        return;
+    }
+
+    if (winner == 'player') {
+        updateScore('player');
+        updateResultDisplay(playerSelection, computerSelection, winner);
+
+    } else if (winner == 'computer') {
+        updateScore('computer');
+        updateResultDisplay(playerSelection, computerSelection, winner);
+    }
+
+    updateSelectDisplay(playerSelection, computerSelection);
+
+}
+
+function updateResultDisplay(playerSelection, computerSelection, winner) {
+    let roundResultDisp = document.createElement('p');
+    switch (winner) {
+        case null:
+            roundResultDisp.textContent = "It's a tie! "
+            break;
+        case 'player':
+            roundResultDisp.textContent = `You Won! ${playerSelection} beats ${computerSelection}!`;
+            break;
+        case 'computer':
+            roundResultDisp.textContent = `You Lose! ${computerSelection} beats ${playerSelection}!`;
+            break;
+        default:
+            roundResultDisp.textContent = 'ERROR'
+    }
+    resultDisplay.append(roundResultDisp);
+}
+
+function updateSelectDisplay(playerSelection, computerSelection) {
+    playerSelectDisp.textContent = playerSelection;
+    computerSelectDisp.textContent = computerSelection;
+}
+
+let playerScore = 0;
+let computerScore = 0;
+let btnSelections = document.querySelectorAll('button');
+let resultDisplay = document.querySelector('#roundResult')
+let playerScoreDisp = document.querySelector('#playerScore');
+let computerScoreDisp = document.querySelector('#computerScore');
+
+let playerSelectDisp = document.querySelector('.playerSelect');
+let computerSelectDisp = document.querySelector('.computerSelect');
+
+btnSelections.forEach(btn => btn.addEventListener('click', playRound));
